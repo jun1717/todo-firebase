@@ -1,24 +1,33 @@
 import React from 'react'
+import { isLoaded, isEmpty } from 'react-redux-firebase'
 import PropTypes from 'prop-types'
 import Todo from './Todo'
 
-const TodoList = ({ todos, toggleTodo }) => (
-  <ul>
-    {todos.map(todo => (
-      <Todo key={todo.id} {...todo} onClick={() => toggleTodo(todo.id)} />
-    ))}
-  </ul>
-)
+const TodoList = ({ todos, onTodoClick }) => {
+  if (!isLoaded(todos)) {
+    return <div>タスク一覧を読み込み中…</div>
+  }
+  if (isEmpty(todos)) {
+    return <div>タスクがありません。</div>
+  }
+
+  return (
+    <ul>
+      {Object.keys(todos).map((key) => (
+        <Todo key={key} {...todos[key]} onClick={() => onTodoClick(key)} />
+      ))}
+    </ul>
+  )
+}
 
 TodoList.propTypes = {
-  todos: PropTypes.arrayOf(
+  todos: PropTypes.objectOf(
     PropTypes.shape({
-      id: PropTypes.number.isRequired,
       completed: PropTypes.bool.isRequired,
       text: PropTypes.string.isRequired
-    }).isRequired
-  ).isRequired,
-  toggleTodo: PropTypes.func.isRequired
+    })
+  ),
+  onTodoClick: PropTypes.func.isRequired
 }
 
 export default TodoList

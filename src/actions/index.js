@@ -1,22 +1,10 @@
-let nextTodoId = 0
-export const addTodo = text => ({
-  type: 'ADD_TODO',
-  id: nextTodoId++,
-  text
-})
+// todo actions
+export const ADD_TODO_REQUEST = 'ADD_TODO_REQUEST';
+export const ADD_TODO_SUCCESS = 'ADD_TODO_SUCCESS';
+export const ADD_TODO_ERROR = 'ADD_TODO_ERROR';
+export const TOGGLE_TODO_REQUEST = 'TOGGLE_TODO_REQUEST';
+export const TOGGLE_TODO_SUCCESS = 'TOGGLE_TODO_SUCCESS';
+export const TOGGLE_TODO_ERROR = 'TOGGLE_TODO_ERROR';
 
-export const setVisibilityFilter = filter => ({
-  type: 'SET_VISIBILITY_FILTER',
-  filter
-})
-
-export const toggleTodo = id => ({
-  type: 'TOGGLE_TODO',
-  id
-})
-
-export const VisibilityFilters = {
-  SHOW_ALL: 'SHOW_ALL',
-  SHOW_COMPLETED: 'SHOW_COMPLETED',
-  SHOW_ACTIVE: 'SHOW_ACTIVE'
-}
+// visibility filter actions
+export const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER';
