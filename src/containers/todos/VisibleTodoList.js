@@ -1,15 +1,14 @@
-import { connect } from 'react-redux'
-import { toggleTodo } from '../actions/todoActions'
-import TodoList from '../components/TodoList'
-import { VisibilityFilters } from '../actions'
 import { compose } from 'redux'
+import { connect } from 'react-redux'
 import { firebaseConnect } from 'react-redux-firebase'
+import { toggleTodo } from '../../actions/todoActions'
+import TodoList from '../../components/todos/TodoList'
 
 const getVisibleTodos = (todos, filter) => {
-  if (!todos) return todos
+  if (!todos) return todos;
   switch (filter) {
     case 'SHOW_ALL':
-      return todos
+      return todos;
     case 'SHOW_COMPLETED':
       return Object.keys(todos)
         .filter(key => todos[key].completed)
@@ -33,23 +32,30 @@ const getVisibleTodos = (todos, filter) => {
   }
 }
 
-const mapStateToProps = state => {
+const firebaseQueries = ({ uid }) => (
+  [
+    { path: `users/${uid}/displayName`, type: 'once' },
+    `todos/${uid}`
+  ]
+)
+
+const mapStateToProps = ({ visibilityFilter, firebase: { data: { users, todos } } }, { uid }) => {
   return {
-    todos: getVisibleTodos(state.firebase.data.todos, state.visibilityFilter)
+    displayName: users && users[uid] && users[uid].displayName,
+    todos: getVisibleTodos(todos && todos[uid], visibilityFilter)
   }
 }
-const mapDispatchToProps = dispatch => {
+
+const mapDispatchToProps = (dispatch, { uid }) => {
   return {
-    onTodoClick: id => {
-      dispatch(toggleTodo(id))
+    onTodoClick: (id) => {
+      dispatch(toggleTodo(uid, id))
     }
   }
 }
 
 const VisibleTodoList = compose(
-  firebaseConnect([
-    'todos'
-  ]),
+  firebaseConnect(firebaseQueries),
   connect(
     mapStateToProps,
     mapDispatchToProps

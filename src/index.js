@@ -3,6 +3,7 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
+import logger from 'redux-logger'
 import { reactReduxFirebase, getFirebase } from 'react-redux-firebase'
 import firebase from 'firebase'
 import todoApp from './reducers'
@@ -13,7 +14,7 @@ firebase.initializeApp(firebaseConfig);
 
 const createStoreWithFirebase = compose(
   applyMiddleware(thunk.withExtraArgument({ getFirebase })),
-  reactReduxFirebase(firebase, {})
+  reactReduxFirebase(firebase, { userProfile: 'users', preserveOnLogout: ['todos', 'users', 'recentUpdatedTodos'] })
 )(createStore);
 
 const store = createStoreWithFirebase(todoApp);

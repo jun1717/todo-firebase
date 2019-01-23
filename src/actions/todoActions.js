@@ -1,6 +1,7 @@
 import {
   ADD_TODO_REQUEST, ADD_TODO_SUCCESS, ADD_TODO_ERROR,
-  TOGGLE_TODO_REQUEST, TOGGLE_TODO_SUCCESS, TOGGLE_TODO_ERROR
+  TOGGLE_TODO_REQUEST, TOGGLE_TODO_SUCCESS, TOGGLE_TODO_ERROR,
+  NOT_AUTHENTICATED_ON_TODO_ACTION, LOCATION_CHANGE_ON_TODOS,
 } from './index'
 
 const addTodoRequest = () => ({
@@ -35,11 +36,23 @@ const toggleTodoError = (text, completed, err) => ({
   err
 })
 
-export const addTodo = text => {
+const notAuthenticatedOnTodoAction = () => ({
+  type: NOT_AUTHENTICATED_ON_TODO_ACTION
+})
+
+
+export const addTodo = (uid, text) => {
   return (dispatch, getState, { getFirebase }) => {
+    if (!uid) {
+      dispatch(notAuthenticatedOnTodoAction());
+      return;
+    }
     dispatch(addTodoRequest());
     const firebase = getFirebase();
-    firebase.push('todos', { completed: false, text })
+    firebase.push(`todos/${uid}`, {
+      completed: false,
+      text,
+    })
       .then(() => {
         dispatch(addTodoSuccess());
       }).catch(err => {
@@ -48,13 +61,19 @@ export const addTodo = text => {
   }
 }
 
-export const toggleTodo = id => {
+export const toggleTodo = (uid, id) => {  // #4
   return (dispatch, getState, { getFirebase }) => {
+    if (!uid) {
+      dispatch(notAuthenticatedOnTodoAction());
+      return;
+    }
     const firebase = getFirebase();
     const state = getState();
-    const todo = state.firebase.data.todos[id];
+    const todo = state.firebase.data.todos[uid][id];
     dispatch(toggleTodoRequest(todo.text, !todo.completed));
-    firebase.update(`todos/${id}`, { completed: !todo.completed })
+    firebase.update(`todos/${uid}/${id}`, {
+      completed: !todo.completed,
+    })
       .then(() => {
         dispatch(toggleTodoSuccess(todo.text, !todo.completed));
       }).catch(err => {
@@ -62,3 +81,7 @@ export const toggleTodo = id => {
       });
   }
 }
+
+export const locationChangeOnTodos = () => ({
+  type: LOCATION_CHANGE_ON_TODOS
+})

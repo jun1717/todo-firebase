@@ -8,3 +8,14 @@ export const TOGGLE_TODO_ERROR = 'TOGGLE_TODO_ERROR';
 
 // visibility filter actions
 export const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER';
+
+// auth actions
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
+export const LOGIN_ERROR = 'LOGIN_ERROR'
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
+export const LOGOUT_ERROR = 'LOGOUT_ERROR'
+
+export const NOT_AUTHENTICATED_ON_TODO_ACTION = 'NOT_AUTHENTICATED_ON_TODO_ACTION'
+
+// todo actions
+export const LOCATION_CHANGE_ON_TODOS = 'LOCATION_CHANGE_ON_TODOS'
