@@ -1,3 +1,4 @@
+import moment from 'moment'
 import {
   ADD_TODO_REQUEST, ADD_TODO_SUCCESS, ADD_TODO_ERROR,
   TOGGLE_TODO_REQUEST, TOGGLE_TODO_SUCCESS, TOGGLE_TODO_ERROR,
@@ -49,9 +50,12 @@ export const addTodo = (uid, text) => {
     }
     dispatch(addTodoRequest());
     const firebase = getFirebase();
+    const createdAt = moment().valueOf();
     firebase.push(`todos/${uid}`, {
       completed: false,
       text,
+      _createdAt: createdAt,
+      _updatedAt: createdAt
     })
       .then(() => {
         dispatch(addTodoSuccess());
@@ -71,8 +75,10 @@ export const toggleTodo = (uid, id) => {  // #4
     const state = getState();
     const todo = state.firebase.data.todos[uid][id];
     dispatch(toggleTodoRequest(todo.text, !todo.completed));
+    const updatedAt = moment().valueOf();
     firebase.update(`todos/${uid}/${id}`, {
       completed: !todo.completed,
+      _updatedAt: updatedAt
     })
       .then(() => {
         dispatch(toggleTodoSuccess(todo.text, !todo.completed));
