@@ -3,6 +3,7 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase'
 import PropTypes from 'prop-types'
+import List from '@material-ui/core/List'
 import UserUpdatedTodos from './UserUpdatedTodo'
 
 const RecentUpdatedList = (todos) => {
@@ -13,11 +14,13 @@ const RecentUpdatedList = (todos) => {
     return <div>データがありません。</div>
   }
   return (
-    <ul>
-      {todos.map(({ key, value: todo }) =>  // #4
-        <UserUpdatedTodos key={key} {...todo} />
-      )}
-    </ul>
+    <div>
+      <List>
+        {todos.map(({ key, value: todo }) =>
+          <UserUpdatedTodos key={key} {...todo} />
+        )}
+      </List>
+    </div>
   )
 }
 
