@@ -1,6 +1,7 @@
 import React from 'react'
 import { isLoaded, isEmpty } from 'react-redux-firebase'
 import PropTypes from 'prop-types'
+import List from '@material-ui/core/List'
 import Todo from './Todo'
 
 const TodoList = ({ displayName, todos, isOwnTodos, onTodoClick }) => {
@@ -15,17 +16,18 @@ const TodoList = ({ displayName, todos, isOwnTodos, onTodoClick }) => {
   return (
     <div>
       {displayName && <div>{name} のタスク一覧</div>}
-      <ul>
+      <List>
         {Object.keys(todos).map(
           (key) => (
             <Todo
               key={key}
+              isOwnTodos={isOwnTodos}
               {...todos[key]}
               onClick={isOwnTodos ? (() => onTodoClick(key)) : (() => { })}
             />
           )
         )}
-      </ul>
+      </List>
     </div>
   )
 }
