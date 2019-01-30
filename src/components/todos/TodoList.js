@@ -2,12 +2,13 @@ import React from 'react'
 import { isLoaded, isEmpty } from 'react-redux-firebase'
 import PropTypes from 'prop-types'
 import List from '@material-ui/core/List'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import Todo from './Todo'
 
 const TodoList = ({ displayName, todos, isOwnTodos, onTodoClick }) => {
   const name = isOwnTodos ? 'あなた' : `${displayName} さん`;
   if (!isLoaded(todos)) {
-    return <div>タスク一覧を読み込み中…</div>
+    return <CircularProgress />
   }
   if (isEmpty(todos)) {
     return <div>タスクがありません。</div>
