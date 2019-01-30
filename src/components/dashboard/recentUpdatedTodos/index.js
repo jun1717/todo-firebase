@@ -5,6 +5,8 @@ import { firebaseConnect, isEmpty, isLoaded } from 'react-redux-firebase'
 import PropTypes from 'prop-types'
 import List from '@material-ui/core/List'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import Typography from '@material-ui/core/Typography'
+import Paper from '@material-ui/core/Paper'
 import UserUpdatedTodos from './UserUpdatedTodo'
 
 const RecentUpdatedList = (todos) => {
@@ -12,7 +14,7 @@ const RecentUpdatedList = (todos) => {
     return <CircularProgress />
   }
   if (isEmpty(todos)) {
-    return <div>データがありません。</div>
+    return <Typography variant="body1">データがありません。</Typography>
   }
   return (
     <div>
@@ -27,10 +29,10 @@ const RecentUpdatedList = (todos) => {
 
 let RecentUpdatedTodos = ({ todos }) => {
   return (
-    <div>
-      <h1>最近の更新</h1>
+    <Paper>
+      <Typography variant="h5">最近の更新</Typography>
       {RecentUpdatedList(todos)}
-    </div>
+    </Paper>
   )
 }
 RecentUpdatedTodos.propTypes = {

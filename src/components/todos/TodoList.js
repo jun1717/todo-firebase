@@ -3,38 +3,34 @@ import { isLoaded, isEmpty } from 'react-redux-firebase'
 import PropTypes from 'prop-types'
 import List from '@material-ui/core/List'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import Typography from '@material-ui/core/Typography'
 import Todo from './Todo'
 
-const TodoList = ({ displayName, todos, isOwnTodos, onTodoClick }) => {
-  const name = isOwnTodos ? 'あなた' : `${displayName} さん`;
+const TodoList = ({ todos, isOwnTodos, onTodoClick }) => {
   if (!isLoaded(todos)) {
     return <CircularProgress />
   }
   if (isEmpty(todos)) {
-    return <div>タスクがありません。</div>
+    return <Typography variant="body1">タスクがありません。</Typography>
   }
 
   return (
-    <div>
-      {displayName && <div>{name} のタスク一覧</div>}
-      <List>
-        {Object.keys(todos).map(
-          (key) => (
-            <Todo
-              key={key}
-              isOwnTodos={isOwnTodos}
-              {...todos[key]}
-              onClick={isOwnTodos ? (() => onTodoClick(key)) : (() => { })}
-            />
-          )
-        )}
-      </List>
-    </div>
+    <List>
+      {Object.keys(todos).map(
+        (key) => (
+          <Todo
+            key={key}
+            isOwnTodos={isOwnTodos}
+            {...todos[key]}
+            onClick={isOwnTodos ? (() => onTodoClick(key)) : (() => { })}
+          />
+        )
+      )}
+    </List>
   )
 }
 
 TodoList.propTypes = {
-  displayName: PropTypes.string,
   todos: PropTypes.objectOf(
     PropTypes.shape({
       completed: PropTypes.bool.isRequired,

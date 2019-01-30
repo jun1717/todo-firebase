@@ -1,8 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import Paper from '@material-ui/core/Paper'
 import Footer from './Footer'
 import NoticeForTodo from './NoticeForTodo'
+import Title from './Title'
 import AddTodo from '../../containers/todos/AddTodo'
 import VisibleTodoList from '../../containers/todos/VisibleTodoList'
 import { locationChangeOnTodos } from '../../actions/todoActions'
@@ -22,10 +24,13 @@ class TodoComponent extends React.Component {
     const { isOwnTodos, match: { params: { uid } } } = this.props;
     return (
       <div>
-        {isOwnTodos && <AddTodo uid={uid} />}
-        <NoticeForTodo />
-        <VisibleTodoList uid={uid} isOwnTodos={isOwnTodos} />
-        <Footer />
+        <Paper>
+          <Title isOwnTodos={isOwnTodos} uid={uid} />
+          {isOwnTodos && <AddTodo uid={uid} />}
+          <NoticeForTodo />
+          <VisibleTodoList uid={uid} isOwnTodos={isOwnTodos} />
+          <Footer />
+        </Paper>
       </div>
     )
   }
