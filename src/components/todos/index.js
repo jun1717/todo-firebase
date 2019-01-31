@@ -1,5 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { compose } from 'redux'
+import { withStyles } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
 import Paper from '@material-ui/core/Paper'
 import Footer from './Footer'
@@ -8,6 +10,18 @@ import Title from './Title'
 import AddTodo from '../../containers/todos/AddTodo'
 import VisibleTodoList from '../../containers/todos/VisibleTodoList'
 import { locationChangeOnTodos } from '../../actions/todoActions'
+
+const styles = theme => ({
+  todoListRoot: {
+    padding: theme.spacing.unit * 3,
+  },
+  todoListContent: {
+    maxWidth: 950,
+    padding: theme.spacing.unit * 3,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+})
 
 class TodoComponent extends React.Component {
   componentWillMount() {
@@ -21,10 +35,10 @@ class TodoComponent extends React.Component {
   }
 
   render() {
-    const { isOwnTodos, match: { params: { uid } } } = this.props;
+    const { isOwnTodos, match: { params: { uid } }, classes } = this.props;
     return (
-      <div>
-        <Paper>
+      <div className={classes.todoListRoot}>
+        <Paper className={classes.todoListContent}>
           <Title isOwnTodos={isOwnTodos} uid={uid} />
           {isOwnTodos && <AddTodo uid={uid} />}
           <NoticeForTodo />
@@ -44,6 +58,7 @@ TodoComponent.propTypes = {
   }).isRequired,
   isOwnTodos: PropTypes.bool.isRequired,
   locationChange: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = ({ firebase: { auth } }, { match }) => ({
@@ -59,4 +74,9 @@ TodoComponent = connect(
   mapDispatchToProps
 )(TodoComponent)
 
-export default TodoComponent;
+export default compose(
+  withStyles(styles),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ))(TodoComponent);
