@@ -9,13 +9,16 @@ import MenuIcon from './MenuIcon'
 import Login from './Login'
 
 const styles = theme => ({
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+  },
   grow: {
     flexGrow: 1,
   },
 })
 
 const Header = ({ classes }) => (
-  <AppBar>
+  <AppBar className={classes.appBar}>
     <Toolbar>
       <Typography variant="h6" color="inherit" component={Link} to="/">
         タスク管理アプリ

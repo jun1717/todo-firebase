@@ -7,6 +7,7 @@ import Dashboard from './dashboard/'
 import TodoComponent from './todos/'
 import NoMatch from './NoMatch'
 import Header from './header/'
+import Notice from './Notice'
 
 const styles = theme => ({
   toolbar: theme.mixins.toolbar,
@@ -23,6 +24,7 @@ const App = ({ classes }) => (
         <Route exact path="/users/:uid/todos" component={TodoComponent} />
         <Route component={NoMatch} />
       </Switch>
+      <Notice />
     </div>
   </BrowserRouter>
 )
