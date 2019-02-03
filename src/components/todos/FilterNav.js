@@ -23,7 +23,6 @@ const styles = theme => ({
 const FilterNav = ({ classes }) => (
   <Drawer variant="permanent" anchor="right" className={classes.drawer} classes={{ paper: classes.drawerPaper, }}>
     <div className={classes.toolbar} />
-    Show:
     <List subheader={<ListSubheader component="div">表示</ListSubheader>}>
       <FilterItem filter={VisibilityFilters.SHOW_ALL}>
         全て

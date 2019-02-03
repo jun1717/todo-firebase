@@ -6,7 +6,7 @@ import thunk from 'redux-thunk'
 import logger from 'redux-logger'
 import { reactReduxFirebase, getFirebase } from 'react-redux-firebase'
 import firebase from 'firebase'
-import { MuiThemeProvider } from '@material-ui/core/styles'  // 追加
+import { MuiThemeProvider } from '@material-ui/core/styles'
 import { theme } from './materialui/theme'
 import todoApp from './reducers'
 import App from './components/App'
