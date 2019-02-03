@@ -6,6 +6,8 @@ import thunk from 'redux-thunk'
 import logger from 'redux-logger'
 import { reactReduxFirebase, getFirebase } from 'react-redux-firebase'
 import firebase from 'firebase'
+import { MuiThemeProvider } from '@material-ui/core/styles'  // 追加
+import { theme } from './materialui/theme'
 import todoApp from './reducers'
 import App from './components/App'
 import firebaseConfig from './firebase/config'
@@ -21,7 +23,9 @@ const store = createStoreWithFirebase(todoApp);
 
 render(
   <Provider store={store}>
-    <App />
+    <MuiThemeProvider theme={theme}>
+      <App />
+    </MuiThemeProvider>
   </Provider>,
   document.getElementById('root')
 )
